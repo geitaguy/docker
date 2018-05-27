@@ -1,0 +1,16 @@
+services:
+  cups:
+    build:
+      context: /var/docker/build/cups
+    image: geitaguy/cups
+    env_file:
+      - cups.env
+    ports:
+      - 631:631/tcp
+      - 5353:5353/tcp
+      - 5353:5353/udp
+    volumes:
+    - /var/docker/data/cups:/etc/cups:rw
+    devices:
+    - /dev/usb/lp0:/dev/usb/lp0
+version: '3.0'

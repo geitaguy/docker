@@ -1,0 +1,62 @@
+version: "3.0"
+services:
+  nextcloud:
+    image: nextcloud
+    ports:
+      - 8880:80/tcp
+    env_file:
+     - /var/docker/config/nextcloud/app.env
+     - /var/docker/config/nextcloud/db.env
+    networks:
+      - default
+      - traefik_public
+    deploy:
+      labels:
+        - "traefik.frontend.rule=Host:nextcloud.geitaguy.net"
+        - "traefik.docker.network=traefik_public"
+        - "traefik.port=80"
+        - "traefik.enable=true"
+    volumes:
+      - /var/docker/data/nextcloud/apps:/var/www/html/custom_apps
+      - /var/docker/data/nextcloud/config:/var/www/html/config
+      - /var/docker/data/nextcloud/data:/var/www/html/data
+
+  db:
+    image: mariadb:10
+    env_file:
+      - /var/docker/config/nextcloud/db.env
+    volumes:
+      - /var/docker/runtime/nextcloud/db:/var/lib/mysql
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - /var/docker/runtime/nextcloud/redis:/data
+
+  cron:
+    image: nextcloud
+    volumes:
+      - /var/docker/data/nextcloud/apps:/var/www/html/custom_apps
+      - /var/docker/data/nextcloud/config:/var/www/html/config
+      - /var/docker/data/nextcloud/data:/var/www/html/data
+    user: www-data
+    entrypoint: |
+      bash -c 'bash -s <<EOF
+        trap "break;exit" SIGHUP SIGINT SIGTERM
+        while [ ! -f /var/www/html/config/config.php ]; do
+          sleep 1
+        done
+        while true; do
+          php -f /var/www/html/cron.php
+          sleep 15m
+        done
+      EOF'
+
+networks:
+  traefik_public:
+    external: true
+  default:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.12.0/24

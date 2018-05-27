@@ -1,0 +1,42 @@
+
+version: '3'
+services:
+  mail:
+    image: tvial/docker-mailserver:latest
+    ports:
+    - "25:25"
+    - "143:143"
+    - "587:587"
+    - "993:993"
+    volumes:
+    - /var/docker/data/mail/letsencrypt:/etc/letsencrypt
+    - /var/docker/data/mail/mail:/var/mail
+    - /var/docker/data/mail/mailstate:/var/mail-state
+    - /var/docker/data/mail/config:/tmp/docker-mailserver
+    env_file:
+    - /var/docker/config/mail/mail.env
+    deploy:
+      replicas: 1
+
+  rainloop:
+    image: hardware/rainloop
+    networks:
+      - default
+      - traefik_public
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.frontend.rule=Host:webmail.geitaguy.net
+        - traefik.docker.network=traefik_public
+        - traefik.port=8888
+    volumes:
+      - /var/docker/data/mail/rainloop:/rainloop/data
+
+networks:
+  traefik_public:
+    external: true
+  default:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.2.0/24

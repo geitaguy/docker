@@ -1,0 +1,45 @@
+version: '3.0'
+
+services:
+  jackett:
+    image: linuxserver/jackett:latest
+    env_file:
+      - /var/docker/config/automedia/jackett.env
+    volumes:
+      - /var/docker/data/automedia/jackett:/config
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.frontend.rule=Host:jackett.geitaguy.net
+        - traefik.docker.network=traefik_public
+        - traefik.port=9117
+    networks:
+      - default
+      - traefik_public
+
+  sonarr:
+    image: linuxserver/sonarr:latest
+    env_file:
+      - /var/docker/config/automedia/sonarr.env
+    volumes:
+      - /var/docker/data/automedia/sonarr:/config
+      - /var/docker/data/automedia/media:/media 
+    networks:
+      - default
+      - traefik_public
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.frontend.rule=Host:sonarr.geitaguy.net
+        - traefik.docker.network=traefik_public
+        - traefik.port=8989
+        
+networks:
+  traefik_public:
+    external: true 
+  default:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.11.0/24
+           

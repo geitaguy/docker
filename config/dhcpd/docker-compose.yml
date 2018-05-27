@@ -1,0 +1,50 @@
+services:
+  bind:
+    build:
+      context: ./bind
+    network_mode: host
+    ports:
+    - 53:53/udp
+    restart: always
+    volumes:
+    - ./bind/data:/etc/bind
+  dhcpd:
+    build:
+      context: ./dhcpd
+    network_mode: host
+    ports:
+    - 67:67/udp
+    restart: always
+    volumes:
+    - ./dhcpd/data/dhcpd.conf:/etc/dhcp/dhcpd.conf:ro
+    - ./dhcpd/data/leases:/var/lib/dhcp:rw
+  samba:
+    build:
+      context: ./samba
+    network_mode: host
+    ports:
+    - 137:137/tcp
+    - 138:138/tcp
+    - 139:139/tcp
+    - 445:445/tcp
+    restart: always
+    tty: true
+    volumes:
+    - ./samba/data/smb.conf:/etc/samba/smb.conf:rw
+    - ~:/share:rw
+  vpn:
+    build:
+      context: ./vpn
+    network_mode: host
+    ports:
+      - 500:500/udp
+      - 4500:4500/udp
+    volumes:
+      - /lib/modules:/lib/modules:ro
+      - ./vpn/data/chap-secrets:/etc/ppp/chap-secrets:rw
+      - ./vpn/data/ipsecd-passwd:/etc/ipsec.d/passwd:rw
+      - ./vpn/data/ipsec.secrets:/etc/ipsec.secrets:rw
+    privileged: true
+    restart: always
+
+version: '3.0'

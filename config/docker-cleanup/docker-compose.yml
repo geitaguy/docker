@@ -1,0 +1,18 @@
+services:
+  docker-cleanup:
+    image: meltwater/docker-cleanup:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/docker:/var/lib/docker
+    deploy:
+      mode: global
+    env_file: /var/docker/config/docker-cleanup/docker-cleanup.env
+
+networks:
+  default:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.0.0/24
+
+version: '3.0'
