@@ -1,3 +1,4 @@
 *
 !.gitignore
-
+!smb.conf
+!smb.conf.d/*.conf
