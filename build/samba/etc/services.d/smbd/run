@@ -1,4 +1,4 @@
 #!/usr/bin/with-contenv bash
 
 nmbd -D
-smbd -FS
+smbd -FSs /data/smb.conf

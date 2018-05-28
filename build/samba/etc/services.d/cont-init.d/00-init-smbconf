@@ -1,0 +1,16 @@
+#!/usr/bin/with-contenv bash
+
+# Create persistent smb.conf
+if [ ! /data/smb.conf ]; then
+  cp /etc/samba/smb.conf /data
+fi
+
+# Create smb.conf.d directory for additional shares
+if [ ! -d /data/smb.conf.d ]; then
+  mkdir /data/smb.conf.d
+fi
+
+# Include smb.conf.d in smb.conf
+if [ ! grep -e "include /data/smb.conf.d/*.conf" /data/smb.conf ]; then
+  echo "include /data/smb.conf.d/*.conf" >> /data/smb.conf
+fi

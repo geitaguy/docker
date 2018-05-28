@@ -9,6 +9,6 @@ services:
       - 139:139/tcp
       - 445:445/tcp
     volumes:
-    - /var/docker/data/samba/smb.conf:/etc/samba/smb.conf:rw
+    - /var/docker/data:/data:rw
     - /var/docker:/var/docker:rw
 version: '3.0'
