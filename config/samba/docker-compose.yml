@@ -11,4 +11,9 @@ services:
     volumes:
     - /var/docker/data:/data:rw
     - /var/docker:/var/docker:rw
+
+networks:
+  default:
+    driver: overlay
+
 version: '3.0'
