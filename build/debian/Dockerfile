@@ -1,8 +1,8 @@
 FROM debian:stretch-slim
 ENV DEBIAN_FRONTEND=noninteractive
 
-ENV S6_VERSION "1.21.2.2"
-ENV S6_ARCH "amd64"
+ENV S6_VERSION 1.21.2.2
+ENV S6_ARCH amd64
 
 RUN apt-get -q update \
  && apt-get install -qy --no-install-recommends \
