@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv bash
+
+# Provide default user if none provided
+user=${USER:-samba}
+pass=${PASS:-samba}
+
+# Create user account
+adduser --no-create-home --shell /sbin/nologin --ingroup sambashare --disabled-password --disabled-login --gecos "" $user
+
+# add user and password to samba
+echo -e "${pass}\n${pass}\n" | smbpasswd -sac /data/smb.conf ${user}
+
+exit $?
