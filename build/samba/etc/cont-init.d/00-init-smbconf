@@ -17,7 +17,7 @@ else
 fi
 
 # Include smb.conf.d in smb.conf
-if [ grep -e "include /data/smb.conf.d/*.conf" /data/smb.conf ]; then
+if [ $(grep -e "include /data/smb.conf.d/*.conf" /data/smb.conf) ]; then
   echo "smb.conf.d config files included in smb.conf"
 else
   echo "Adding smb.conf.d config files in smb.conf"
