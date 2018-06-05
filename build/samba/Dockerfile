@@ -10,6 +10,6 @@ RUN apt-get -qq update \
 
 ADD etc /etc
 
-EXPOSE 137 138 139 445
+EXPOSE 137 138 139 445 5353
 
 VOLUME /var/lib/samba
