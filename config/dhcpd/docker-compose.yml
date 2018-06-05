@@ -1,8 +1,5 @@
 services:
   dhcpd:
-    build:
-      context: ./dhcpd
-    network_mode: host
     ports:
     - 67:67/udp
     restart: always

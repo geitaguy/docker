@@ -1,7 +1,5 @@
 services:
   samba:
-    build:
-      context: /var/docker/build/samba
     image: geitaguy/samba
     hostname: stretch-eval.geitaguy.net
     ports:

@@ -1,7 +1,5 @@
 services:
   cups:
-    build:
-      context: /var/docker/build/cups
     image: geitaguy/cups
     env_file:
       - cups.env

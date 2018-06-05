@@ -1,8 +1,6 @@
 services:
   bind:
     image: geitaguy/bind
-    build:
-      context: /var/docker/build/bind
     ports:
     - 53:53/udp
     volumes:
