@@ -8,6 +8,6 @@ RUN apt-get -qq update \
  && apt-get -qqy clean \
  && rm -rf /var/lib/apt/lists/*
 
-EXPOSE 53/udp
+ADD etc /etc
 
-CMD named -g
+EXPOSE 53/udp
