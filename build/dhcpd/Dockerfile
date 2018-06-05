@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM geitaguy/debian
 
 ENV DEBIAN_FRONTEND noninteractive
 
