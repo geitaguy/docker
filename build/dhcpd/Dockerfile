@@ -9,6 +9,6 @@ RUN apt-get -qq update && \
     apt-get -qqy clean && \
     rm -rf /var/lib/apt/lists/*
 
-EXPOSE 67/udp
+ADD etc /etc
 
-CMD dhcpd -4 -f -d --no-pid -cf /etc/dhcp/dhcpd.conf -lf /var/lib/dhcp/dhcpd.leases
+EXPOSE 67/udp
