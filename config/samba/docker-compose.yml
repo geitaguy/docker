@@ -3,6 +3,7 @@ services:
     build:
       context: /var/docker/build/samba
     image: geitaguy/samba
+    hostname: stretch-eval.geitaguy.net
     ports:
       - 137:137/udp
       - 138:138/udp
