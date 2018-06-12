@@ -18,6 +18,7 @@ dsinstall() {
     apt-get -q update
     apt-get -qy install docker-ce
     usermod -aG docker $(whoami)
+    curl -O /etc/bash_completion.d/docker https://raw.githubusercontent.com/docker/cli/b75596e1e4d5295ac69b9934d1bd8aff691a0de8/contrib/completion/bash/docker
     curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
     docker run hello-world
