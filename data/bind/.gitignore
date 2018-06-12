@@ -1,7 +1,0 @@
-*
-!.gitignore
-!bind.keys
-!db.*
-!named.conf*
-!rndc.conf
-!zones.rfc1918

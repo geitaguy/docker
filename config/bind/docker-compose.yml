@@ -1,8 +1,0 @@
-services:
-  bind:
-    image: geitaguy/bind
-    ports:
-    - 53:53/udp
-    volumes:
-    - /var/docker/data/bind:/etc/bind
-version: '3.0'

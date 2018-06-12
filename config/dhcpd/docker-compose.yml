@@ -1,9 +1,0 @@
-services:
-  dhcpd:
-    ports:
-    - 67:67/udp
-    restart: always
-    volumes:
-    - ./dhcpd/data/dhcpd.conf:/etc/dhcp/dhcpd.conf:ro
-    - ./dhcpd/data/leases:/var/lib/dhcp:rw
-version: '3.0'
