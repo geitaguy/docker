@@ -1,0 +1,37 @@
+version: "3.0"
+
+services:
+  plex:
+    image: linuxserver/plex
+    env_file: plex.env
+    volumes:
+      - /var/docker/config/plex:/config
+      - /var/docker/media:/media
+    deploy:
+      labels:
+        - traefik.frontend.rule=Host:plex.example.com
+        - traefik.docker.network=traefik_public
+        - traefik.port=32400
+    networks:
+        - traefik_public
+        - default
+    ports:
+      - 32469:32469
+      - 32400:32400
+      - 32401:32401
+      - 3005:3005
+      - 8324:8324
+      - 1900:1900/udp
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+
+networks:
+  traefik_public:
+    external: true
+  default:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.16.0/24
