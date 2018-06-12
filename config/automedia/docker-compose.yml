@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  sonarr:
+    image: linuxserver/sonarr:latest
+    env_file : /var/docker/config/automedia/sonarr.env
+    volumes:
+     - /var/docker/data/automedia/sonarr:/config
+     - /var/docker/data/media:/media
+    networks:
+    - default
+
+headphones:
+  image: linuxserver/headphones:latest
+  env_file : /var/docker/config/automedia/headphones.env
+  volumes:
+   - /var/docker/data/automedia/headphones:/config
+   - /var/docker/data/media:/media
+  networks:
+  - default
+
+ombi:
+  image: linuxserver/ombi:latest
+  env_file : /var/docker/config/automedia/ombi.env
+  volumes:
+   - /var/docker/data/automedia/ombi:/config
+  networks:
+  - default
+
+jackett:
+  image: linuxserver/jackett:latest
+  env_file : /var/docker/config/automedia/jackett.env
+  volumes:
+   - /var/docker/data/automedia/jackett:/config
+  networks:
+  - default
+
+radarr:
+  image: linuxserver/radarr:latest
+  env_file : /var/docker/config/automedia/radarr.env
+  volumes:
+   - /var/docker/data/automedia/radarr:/config
+   - /var/docker/data/media:/media
+  networks:
+  - default
+
+rtorrent:
+  image: linuxserver/rutorrent
+  env_file : /var/docker/config/automedia/rtorrent.env
+  ports:
+   - 36258:36258
+  volumes:
+   - /var/docker/media/:/media
+   - /var/docker/automedia/rtorrent:/config
+  networks:
+  - default
+
+networks:
+traefik_public:
+  external: true
+public:
+  driver: overlay
+  ipam:
+    config:
+      - subnet: 172.16.11.0/24
