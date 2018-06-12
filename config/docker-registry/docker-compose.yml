@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  registry:
+    image: registry:2
+    networks:
+      - traefik_public
+    deploy:
+      labels:
+        - traefik.frontend.rule=Host:<your mirror FQDN>
+        - traefik.docker.network=traefik_public
+        - traefik.port=5000
+    ports:
+      - 5000:5000
+    volumes:
+      - /var/docker/data/docker-registry/registry:/var/lib/registry
+      - /var/docker/data/docker-registry/config.yml:/etc/docker/registry/config.yml
+
+networks:
+  traefik_public:
+    external: true

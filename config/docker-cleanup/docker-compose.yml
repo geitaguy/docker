@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  docker-cleanup:
+    image: meltwater/docker-cleanup:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker:/var/lib/docker
+    labels:
+      - "traefik.enable=false"
+    networks:
+      - default
+    deploy:
+      mode: global
+    env_file: /var/docker/config/docker-cleanup/docker-cleanup.env
+
+networks:
+  default:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 172.16.0.0/24
