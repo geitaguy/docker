@@ -1,4 +1,4 @@
-docker-install() {
+docker_install() {
     apt-get -q update
     apt-get -qy install --no-install-recommends apt-transport-https ca-certificates curl gnupg2 software-properties-common
     curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add -
@@ -17,5 +17,5 @@ docker-install() {
     echo "Usage: sudo $0"
     exit 1
   else
-    docker-install
+    docker_install
   fi
