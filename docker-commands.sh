@@ -14,7 +14,7 @@ dsinstall() {
 }
 
 dsinit() {
-  docker stack init
+  docker swarm init
 }
 
 dsmk() {
