@@ -7,7 +7,7 @@ services:
       - traefik_public
     deploy:
       labels:
-        - traefik.frontend.rule=Host:<your mirror FQDN>
+        - traefik.frontend.rule=Host:registry.example.com
         - traefik.docker.network=traefik_public
         - traefik.port=5000
     ports:
