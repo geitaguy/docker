@@ -7,10 +7,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/docker/data/portainer:/data
     networks:
+      - default
       - traefik_public
+    ports:
+      - 9000:9000/tcp
     deploy:
       labels:
-        - traefik.frontend.rule=Host:portainer.funkypenguin.co.nz
+        - traefik.frontend.rule=Host:portainer.example.com
+        - traefik.docker.network=traefik_public
         - traefik.port=9000
       placement:
         constraints: [node.role == manager]
