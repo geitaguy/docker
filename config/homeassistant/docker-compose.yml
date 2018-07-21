@@ -6,7 +6,7 @@ services:
       networks:
         - default
       volumes:
-        - /var/docker/data/homeassistant/influxdb:/var/lib/influxdb
+        - /var/docker/runtime/homeassistant/influxdb:/var/lib/influxdb
         - /etc/localtime:/etc/localtime:ro
 
     homeassistant:
@@ -32,7 +32,13 @@ services:
       volumes:
         - /var/docker/data/homeassistant/grafana:/var/lib/grafana
         - /etc/localtime:/etc/localtime:ro
+      deploy:
+        labels:
+          - traefik.frontend.rule=Host:grafana.example.com
+          - traefik.docker.network=traefik_public
+          - traefik.port=3000
       networks:
+        - traefik_public
         - default
 
 networks:
