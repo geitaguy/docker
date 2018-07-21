@@ -1,17 +1,20 @@
-checkNewVersion = true
+checkNewVersion = false
 defaultEntryPoints = ["http", "https"]
 
 # This section enable LetsEncrypt automatic certificate generation / renewal
 [acme]
-email = "<your LetsEncrypt email address>"
-storage = "acme.json" # or "traefik/acme/account" if using KV store
+email = "email@example.com"
+storage = "acme.json"
 entryPoint = "https"
 acmeLogging = true
-onDemand = true
 OnHostRule = true
+#caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+
+  [acme.httpChallenge]
+    entryPoint = "http"
 
 [[acme.domains]]
-  main = "<your primary domain>"
+  main = "example.com"
 
 # Redirect all HTTP to HTTPS (why wouldn't you?)
 [entryPoints]
@@ -29,6 +32,6 @@ watch = true
 
 [docker]
 endpoint = "tcp://127.0.0.1:2375"
-domain = "<your primary domain>"
+domain = "example.com"
 watch = true
 swarmmode = true
