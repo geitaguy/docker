@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+  postgresql:
+    image: postgres:9.5
+    restart: always
+    env_file: docker-compose.env
+    volumes:
+      - /var/docker/data/ucrm/postgres:/var/lib/postgresql/data
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  web_app:
+    image: ubnt/ucrm-billing:latest
+    restart: always
+    env_file: docker-compose.env
+    volumes:
+      - /var/docker/data/ucrm/ucrm:/data
+    networks:
+      - default
+      - traefik_public
+    deploy:
+      labels:
+        - traefik.frontend.rule=Host:ucrm.example.com
+        - traefik.docker.network=traefik_public
+        - traefik.port=80
+        - traefik.ucrm-portal.frontend.rule=Host:ucrm-portal.example.com
+        - traefik.ucrm-portal.docker.network=traefik_public
+        - traefik.ucrm-portal.port=81
+    ports:
+      - 9080:80
+      - 9081:81
+      - 9443:443
+      - 2055:2055/udp
+    command: "server"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.2.2
+    volumes:
+      - /var/docker/data/ucrm/elasticsearch6:/usr/share/elasticsearch/data
+      - /var/docker/data/ucrm/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  rabbitmq:
+    image: rabbitmq:3
+    restart: always
+    volumes:
+      - /var/docker/data/ucrm/rabbitmq:/var/lib/rabbitmq
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  traefik_public:
+    external: true
+  default:
