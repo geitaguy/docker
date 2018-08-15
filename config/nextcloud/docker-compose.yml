@@ -13,7 +13,6 @@ services:
         - traefik.docker.network=traefik_public
         - traefik.port=80
     volumes:
-      - /var/docker/data/nextcloud/:/var/www/html
       - /var/docker/data/nextcloud/apps:/var/www/html/custom_apps
       - /var/docker/data/nextcloud/config:/var/www/html/config
       - /var/docker/data/nextcloud/data:/var/www/html/data
