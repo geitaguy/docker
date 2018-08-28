@@ -1,9 +1,9 @@
-version: "3"
+version: "3.2"
 
 services:
   traefik:
     image: traefik
-    command: --web --docker --docker.swarmmode --docker.watch --docker.domain=<your primary domain> --logLevel=DEBUG
+    command: --docker --docker.swarmmode --docker.watch --logLevel=DEBUG
     ports:
       - target: 80
         published: 80
@@ -20,8 +20,10 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /var/docker/data/traefik/traefik.toml:/traefik.toml:ro
       - /var/docker/data/traefik/acme.json:/acme.json
+      - /var/docker/data/traefik/traefik.htpasswd:/traefik.htpasswd:ro
+      - /var/docker/data/traefik/backends:/backends
     labels:
-      - "traefik.enable=false"
+      - traefik.enable=false
     networks:
       - public
     deploy:

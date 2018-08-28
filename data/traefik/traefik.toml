@@ -16,6 +16,10 @@ OnHostRule = true
 [[acme.domains]]
   main = "example.com"
 
+[api]
+  entrypoint = "traefik"
+  dashboard = true
+
 # Redirect all HTTP to HTTPS (why wouldn't you?)
 [entryPoints]
   [entryPoints.http]
@@ -25,13 +29,19 @@ OnHostRule = true
   [entryPoints.https]
   address = ":443"
     [entryPoints.https.tls]
-
-[web]
-address = ":8080"
-watch = true
+  [entryPoints.traefik]
+    address=":8080"
+     [entryPoints.traefik.auth]
+        [entryPoints.traefik.auth.basic]
+           usersFile = "/traefik.htpasswd"
 
 [docker]
 endpoint = "tcp://127.0.0.1:2375"
 domain = "example.com"
 watch = true
 swarmmode = true
+
+
+[file]
+  directory = "/backends"
+  watch = true
